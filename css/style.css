@@ -1,0 +1,243 @@
+
+
+
+    body {
+        margin: 0;
+        background-color: #000;
+        color: #fff;
+        height: 100vh;
+        font-family: 'Archivo', Helvetica, Arial, sans-serif;
+    }
+
+    h1{
+      font-size: 36px;
+      line-height: 36px;
+    }
+
+    h2{
+      font-size: 24px;
+      line-height: 24px;
+    }
+
+    h3{
+      font-size: 72px;
+      line-height: 72px;
+    }
+
+    .loading-screen{
+      position: fixed;
+      display: block;
+      opacity: 1;
+      width: 100%;
+      height: 100%;
+      background-color: white;
+      z-index: 100000;
+      transition: opacity 500ms ease;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .spinner{
+      height: 1000px;
+      width: 1000px;
+    }
+
+    .application-wrapper{
+      z-index: 100;
+      background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(240,240,240,1) 60%, rgba(190,190,190,1) 100%);
+      max-width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      align-items: stretch;
+    }
+
+    .canvas-wrapper{
+      flex-grow: 1;
+      width: auto;
+      height: 100%;
+    }
+
+    canvas {
+        display: block;
+    }
+
+    .side-panel{
+      width: 100%;
+      box-sizing: border-box;
+      position: fixed;
+      flex-grow: 0;
+      box-sizing: border-box;
+      padding: 20px;
+      height: auto;
+      z-index: 10000;
+    }
+
+    .side-panel-inner{
+      border-radius: 5px;
+      height: 80px;
+      width: 400px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: center;
+      background-color: white;
+      border: 1px solid #dedede;
+      -webkit-box-shadow: 0px 4px 15px -4px rgba(0,0,0,0.63);
+      -moz-box-shadow: 0px 4px 15px -4px rgba(0,0,0,0.63);
+      box-shadow: 0px 4px 15px -4px rgba(0,0,0,0.63);
+    }
+
+    .loaded .loading-screen{
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .info-temp{
+      margin: 0;
+      padding: 0;
+      z-index: 2000;
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      color: #333333;
+    }
+
+
+
+    .info-year{
+      margin: 0;
+      padding: 0;
+      z-index: 2000;
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      color: #333333;
+    }
+
+    /* The slider itself */
+    .slider {
+      margin: 40px;
+      z-index: 1000;
+      -webkit-appearance: none;  /* Override default CSS styles */
+      appearance: none;
+      width: 80%; /* Full-width */
+      height: 4px; /* Specified height */
+      outline: none; /* Remove outline */
+      -webkit-transition: .2s; /* 0.2 seconds transition on hover */
+      transition: opacity .2s;
+      border-radius: 40px;
+      background-color: rgba(0, 0, 0, 1);
+    }
+
+    /* Mouse-over effects */
+    .slider:hover {
+      opacity: 1; /* Fully shown on mouse-over */
+    }
+
+    /* The slider handle (use -webkit- (Chrome, Opera, Safari, Edge) and -moz- (Firefox) to override default look) */
+    .slider::-webkit-slider-thumb {
+      -webkit-appearance: none; /* Override default look */
+      appearance: none;
+      width: 30px; /* Set a specific slider handle width */
+      height: 30px; /* Slider handle height */
+      background: #fff; /* Green background */
+      cursor: pointer; /* Cursor on hover */
+      border-radius: 15px;
+      border: 1px solid #dedede;
+    }
+
+    .slider::-moz-range-thumb {
+      opacity: 0.2;
+      width: 80px; /* Set a specific slider handle width */
+      height: 80px; /* Slider handle height */
+      background: #f8f8f8; /* Green background */
+      cursor: pointer; /* Cursor on hover */
+    }
+
+    .lds-roller {
+      display: inline-block;
+      position: relative;
+      width: 64px;
+      height: 64px;
+    }
+    .lds-roller div {
+      animation: lds-roller 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+      transform-origin: 32px 32px;
+    }
+    .lds-roller div:after {
+      content: " ";
+      display: block;
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #000;
+      margin: -3px 0 0 -3px;
+    }
+    .lds-roller div:nth-child(1) {
+      animation-delay: -0.036s;
+    }
+    .lds-roller div:nth-child(1):after {
+      top: 50px;
+      left: 50px;
+    }
+    .lds-roller div:nth-child(2) {
+      animation-delay: -0.072s;
+    }
+    .lds-roller div:nth-child(2):after {
+      top: 54px;
+      left: 45px;
+    }
+    .lds-roller div:nth-child(3) {
+      animation-delay: -0.108s;
+    }
+    .lds-roller div:nth-child(3):after {
+      top: 57px;
+      left: 39px;
+    }
+    .lds-roller div:nth-child(4) {
+      animation-delay: -0.144s;
+    }
+    .lds-roller div:nth-child(4):after {
+      top: 58px;
+      left: 32px;
+    }
+    .lds-roller div:nth-child(5) {
+      animation-delay: -0.18s;
+    }
+    .lds-roller div:nth-child(5):after {
+      top: 57px;
+      left: 25px;
+    }
+    .lds-roller div:nth-child(6) {
+      animation-delay: -0.216s;
+    }
+    .lds-roller div:nth-child(6):after {
+      top: 54px;
+      left: 19px;
+    }
+    .lds-roller div:nth-child(7) {
+      animation-delay: -0.252s;
+    }
+    .lds-roller div:nth-child(7):after {
+      top: 50px;
+      left: 14px;
+    }
+    .lds-roller div:nth-child(8) {
+      animation-delay: -0.288s;
+    }
+    .lds-roller div:nth-child(8):after {
+      top: 45px;
+      left: 10px;
+    }
+    @keyframes lds-roller {
+      0% {
+        transform: rotate(0deg);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
+    }
