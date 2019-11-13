@@ -68,6 +68,7 @@
       flex-grow: 1;
       width: auto;
       height: 100%;
+      z-index: 100;
     }
 
     canvas {
@@ -106,11 +107,12 @@
     }
 
     .info-temp{
+      text-align: right;
       margin: 0;
       padding: 0;
       position: fixed;
       top: 20px;
-      left: 20px;
+      right: 20px;
       color: #333333;
     }
 
@@ -119,7 +121,7 @@
       padding: 0;
       position: fixed;
       top: 20px;
-      right: 20px;
+      left: 20px;
       color: #333333;
     }
 
