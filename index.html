@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>expedition2grad | made with cables</title>
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1">
+    <style>
+        body {
+            margin: 0;
+            background-color: #000;
+            color: #fff;
+            height: 100vh;
+            font-family: Helvetica, Arial, sans-serif;
+        }
+
+        .loading-screen{
+          position: fixed;
+          display: block;
+          opacity: 1;
+          width: 100%;
+          height: 100%;
+          background-color: white;
+          z-index: 100000;
+          transition: opacity 500ms ease;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+
+        .spinner{
+          height: 1000px;
+          width: 1000px;
+        }
+
+        .application-wrapper{
+          z-index: 100;
+          background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(240,240,240,1) 60%, rgba(190,190,190,1) 100%);
+          max-width: 100%;
+          height: 100%;
+          display: flex;
+          flex-direction: column;
+          justify-content: flex-end;
+          align-items: stretch;
+        }
+
+        .canvas-wrapper{
+          flex-grow: 1;
+          width: auto;
+          height: 100%;
+        }
+
+        canvas {
+            display: block;
+        }
+
+        .side-panel{
+          width: 100%;
+          box-sizing: border-box;
+          position: fixed;
+          flex-grow: 0;
+          box-sizing: border-box;
+          padding: 20px;
+          height: auto;
+          z-index: 10000;
+        }
+
+        .side-panel-inner{
+          border-radius: 5px;
+          height: 80px;
+          width: 400px;
+          display: flex;
+          flex-direction: column;
+          justify-content: flex-start;
+          align-items: center;
+          background-color: white;
+          border: 1px solid #dedede;
+          -webkit-box-shadow: 0px 4px 15px -4px rgba(0,0,0,0.63);
+          -moz-box-shadow: 0px 4px 15px -4px rgba(0,0,0,0.63);
+          box-shadow: 0px 4px 15px -4px rgba(0,0,0,0.63);
+        }
+
+        .loaded .loading-screen{
+          opacity: 0;
+          pointer-events: none;
+        }
+
+        .display{
+          margin: 0;
+          padding: 0;
+          z-index: 2000;
+          position: fixed;
+          top: 20px;
+          left: 20px;
+          font-size: 80px;
+          line-height: 80px;
+          color: #333333;
+        }
+        .display2{
+          margin: 0;
+          padding: 0;
+          z-index: 2000;
+          position: fixed;
+          top: 20px;
+          right: 20px;
+          font-size: 80px;
+          line-height: 80px;
+          color: #333333;
+        }
+
+        /* The slider itself */
+        .slider {
+          margin: 40px;
+          z-index: 1000;
+          -webkit-appearance: none;  /* Override default CSS styles */
+          appearance: none;
+          width: 80%; /* Full-width */
+          height: 4px; /* Specified height */
+          outline: none; /* Remove outline */
+          -webkit-transition: .2s; /* 0.2 seconds transition on hover */
+          transition: opacity .2s;
+          border-radius: 40px;
+          background-color: rgba(0, 0, 0, 1);
+        }
+
+        /* Mouse-over effects */
+        .slider:hover {
+          opacity: 1; /* Fully shown on mouse-over */
+        }
+
+        /* The slider handle (use -webkit- (Chrome, Opera, Safari, Edge) and -moz- (Firefox) to override default look) */
+        .slider::-webkit-slider-thumb {
+          -webkit-appearance: none; /* Override default look */
+          appearance: none;
+          width: 30px; /* Set a specific slider handle width */
+          height: 30px; /* Slider handle height */
+          background: #fff; /* Green background */
+          cursor: pointer; /* Cursor on hover */
+          border-radius: 15px;
+          border: 1px solid #dedede;
+        }
+
+        .slider::-moz-range-thumb {
+          opacity: 0.2;
+          width: 80px; /* Set a specific slider handle width */
+          height: 80px; /* Slider handle height */
+          background: #f8f8f8; /* Green background */
+          cursor: pointer; /* Cursor on hover */
+        }
+
+        .lds-roller {
+          display: inline-block;
+          position: relative;
+          width: 64px;
+          height: 64px;
+        }
+        .lds-roller div {
+          animation: lds-roller 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+          transform-origin: 32px 32px;
+        }
+        .lds-roller div:after {
+          content: " ";
+          display: block;
+          position: absolute;
+          width: 6px;
+          height: 6px;
+          border-radius: 50%;
+          background: #000;
+          margin: -3px 0 0 -3px;
+        }
+        .lds-roller div:nth-child(1) {
+          animation-delay: -0.036s;
+        }
+        .lds-roller div:nth-child(1):after {
+          top: 50px;
+          left: 50px;
+        }
+        .lds-roller div:nth-child(2) {
+          animation-delay: -0.072s;
+        }
+        .lds-roller div:nth-child(2):after {
+          top: 54px;
+          left: 45px;
+        }
+        .lds-roller div:nth-child(3) {
+          animation-delay: -0.108s;
+        }
+        .lds-roller div:nth-child(3):after {
+          top: 57px;
+          left: 39px;
+        }
+        .lds-roller div:nth-child(4) {
+          animation-delay: -0.144s;
+        }
+        .lds-roller div:nth-child(4):after {
+          top: 58px;
+          left: 32px;
+        }
+        .lds-roller div:nth-child(5) {
+          animation-delay: -0.18s;
+        }
+        .lds-roller div:nth-child(5):after {
+          top: 57px;
+          left: 25px;
+        }
+        .lds-roller div:nth-child(6) {
+          animation-delay: -0.216s;
+        }
+        .lds-roller div:nth-child(6):after {
+          top: 54px;
+          left: 19px;
+        }
+        .lds-roller div:nth-child(7) {
+          animation-delay: -0.252s;
+        }
+        .lds-roller div:nth-child(7):after {
+          top: 50px;
+          left: 14px;
+        }
+        .lds-roller div:nth-child(8) {
+          animation-delay: -0.288s;
+        }
+        .lds-roller div:nth-child(8):after {
+          top: 45px;
+          left: 10px;
+        }
+        @keyframes lds-roller {
+          0% {
+            transform: rotate(0deg);
+          }
+          100% {
+            transform: rotate(360deg);
+          }
+        }
+
+
+      </style>
+      </head>
+      <body>
+
+        <div class="application-wrapper">
+
+          <div class="loading-screen">
+            <div class="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+          </div>
+
+          <div class="canvas-wrapper">
+            <canvas id="glcanvas"></canvas>
+          </div>
+
+          <div class="side-panel">
+            <div class="side-panel-inner">
+              <input class="slider" type="range" min="0" max="100" value="0" oninput="getSliderValue()"></input>
+            </div>
+          </div>
+
+          <h1 class="display">1880</h1>
+          <h2 class="display2">+0℃</h1>
+        </div>
+
+
+
+
+
+    <libs/>
+    <script type="text/javascript" src="js/patch.js"></script>
+
+
+    <script>
+        /**
+         * Called when there was a cables error.
+         * @param {string} errId - ID of the error, e.g. 'NO_WEBGL' or 'NO_WEBAUDIO'
+         *                         when the browser does not support the used APIs
+         * @param {string} errMsg - The error message
+         */
+        function showError(errId, errMsg) {
+            alert('An error occured: ' + errId + ', ' + errMsg);
+        }
+
+        function patchInitialized() {
+            // You can now access the patch object (CABLES.patch), register variable watchers and so on
+        }
+
+        function patchFinishedLoading() {
+          document.querySelector('.application-wrapper').classList.add('loaded')
+        }
+
+        document.addEventListener('DOMContentLoaded', function(event) {
+            CABLES.patch = new CABLES.Patch({
+                patch: CABLES.exportedPatch,
+                prefixAssetPath: '',
+                glCanvasId: 'glcanvas',
+                canvas:{
+                    alpha:true,
+                    premultipliedAlpha:true
+                },
+                glCanvasResizeToWindow: false,
+                glCanvasResizeToParent: true,
+                onError: showError,
+                onPatchLoaded: patchInitialized,
+                onFinishedLoading: patchFinishedLoading,
+            });
+        });
+
+        function getSliderValue() {
+           val = document.querySelector(".slider").value //gets the oninput value
+           document.querySelector('.display').innerHTML = Math.round((1880 + 220 * (val/100)));
+           document.querySelector('.display2').innerHTML = "+" + Math.round(( 2 * (val)))/100 + "℃";
+           var valForCables = val/100;
+           console.log(valForCables);
+           CABLES.patch.setVariable("sliderInput", valForCables);
+        }
+
+
+    </script>
+</body>
+</html>
