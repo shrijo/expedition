@@ -111,6 +111,7 @@
       color: #333333;
       border: 2px solid #333333;
       padding: 20px;
+      backdrop-filter: blur(0.8);
     }
 
 
@@ -125,6 +126,7 @@
       color: #333333;
       border: 2px solid #333333;
       padding: 20px;
+      backdrop-filter: blur(0.8);
     }
 
     /* The slider itself */
