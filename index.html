@@ -33,7 +33,7 @@
 
           <div class="info-temp">
             <h2>Grad</h2>
-            <h3 class="temp">+0℃</h3>
+            <h3 class="temp">+0 Grad</h3>
           </div>
 
         </div>
@@ -85,7 +85,7 @@
         function getSliderValue() {
            val = document.querySelector(".slider").value //gets the oninput value
            document.querySelector('.year').innerHTML = Math.round((1880 + 220 * (val/100)));
-           document.querySelector('.temp').innerHTML = "+" + Math.round(( 2 * (val)))/100 + "℃";
+           document.querySelector('.temp').innerHTML = "+" + Math.round(( 2 * (val)))/100 + "Grad";
            var valForCables = val/100;
            console.log(valForCables);
            CABLES.patch.setVariable("sliderInput", valForCables);
