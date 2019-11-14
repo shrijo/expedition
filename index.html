@@ -53,6 +53,8 @@
          *                         when the browser does not support the used APIs
          * @param {string} errMsg - The error message
          */
+        var t = setInterval(updateLoadingProgress(),1000);
+
         function showError(errId, errMsg) {
             alert('An error occured: ' + errId + ', ' + errMsg);
         }
@@ -63,6 +65,7 @@
 
         function patchFinishedLoading() {
           document.querySelector('.application-wrapper').classList.add('loaded')
+          clearInterval(t);
         }
 
         document.addEventListener('DOMContentLoaded', function(event) {
@@ -88,6 +91,10 @@
            var valForCables = val/100;
            console.log(valForCables);
            CABLES.patch.setVariable("sliderInput", valForCables);
+        }
+
+        function updateLoadingProgress(){
+          console.log('testi');
         }
 
                 // First we get the viewport height and we multiple it by 1% to get a value for a vh unit
