@@ -1,119 +1,130 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="utf-8">
-    <title>expedition2grad | made with cables</title>
-    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1">
-    <link rel="stylesheet" href="css/stylesheet.css">
-    <link rel="stylesheet" href="css/style.css">
+  <meta charset="utf-8">
+  <title>expedition2grad | made with cables</title>
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1">
+  <link rel="stylesheet" href="css/stylesheet.css">
+  <link rel="stylesheet" href="css/style.css">
 
-      </head>
-      <body>
+</head>
 
-        <div class="application-wrapper">
+<body>
 
-          <div class="loading-screen">
-            <div class="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
-          </div>
+  <div class="application-wrapper">
 
-          <div class="canvas-wrapper">
-            <canvas id="glcanvas"></canvas>
-          </div>
+    <div class="loading-screen">
+      <div class="lds-roller">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+    </div>
 
-          <div class="side-panel">
-            <div class="side-panel-inner">
-              <input class="slider" type="range" min="0" max="100" value="0" oninput="getSliderValue()"></input>
-            </div>
-          </div>
+    <div class="canvas-wrapper">
+      <canvas id="glcanvas"></canvas>
+    </div>
 
-          <div class="info-year">
-            <h2>Jahr</h2>
-            <h3 class="year">1880</h3>
-          </div>
+    <div class="side-panel">
+      <div class="side-panel-inner">
+        <input class="slider" type="range" min="0" max="100" value="0" oninput="getSliderValue()"></input>
+      </div>
+    </div>
 
-          <div class="info-temp">
-            <h2>Temperatur</h2>
-            <h3 class="temp">+0 Grad</h3>
-          </div>
+    <div class="info-year">
+      <h2>Jahr</h2>
+      <h3 class="year">1880</h3>
+    </div>
 
-        </div>
+    <div class="info-temp">
+      <h2>Temperatur</h2>
+      <h3 class="temp">+0 Grad</h3>
+    </div>
 
-
-
-
-
-    <libs/>
-    <script type="text/javascript" src="js/patch.js"></script>
+  </div>
 
 
-    <script>
-        /**
-         * Called when there was a cables error.
-         * @param {string} errId - ID of the error, e.g. 'NO_WEBGL' or 'NO_WEBAUDIO'
-         *                         when the browser does not support the used APIs
-         * @param {string} errMsg - The error message
-         */
-         function UPDATE(){
-           console.log("test update")
-           var loadingProgress = CABLES.patch.getVar("loadingProgress");
 
-           if(loadingProgress) {
-               // will be called every time value changes
-               loadingProgress.addListener(function(newValue) {
-                   console.log(newValue);
-               });
-           }
-        }
 
-        function showError(errId, errMsg) {
-            alert('An error occured: ' + errId + ', ' + errMsg);
-        }
 
-        function patchInitialized() {
-            // You can now access the patch object (CABLES.patch), register variable watchers and so on
-        }
+  <libs />
+  <script type="text/javascript" src="js/patch.js"></script>
 
-        function patchFinishedLoading() {
-          document.querySelector('.application-wrapper').classList.add('loaded')
-        }
 
-        document.addEventListener('DOMContentLoaded', function(event) {
-            CABLES.patch = new CABLES.Patch({
-                patch: CABLES.exportedPatch,
-                prefixAssetPath: '',
-                glCanvasId: 'glcanvas',
-                canvas:{
-                    alpha:true,
-                    premultipliedAlpha:true
-                },
-                glCanvasResizeToWindow: true,
-                onError: showError,
-                onPatchLoaded: patchInitialized,
-                onFinishedLoading: patchFinishedLoading,
-            });
+  <script>
+    /**
+     * Called when there was a cables error.
+     * @param {string} errId - ID of the error, e.g. 'NO_WEBGL' or 'NO_WEBAUDIO'
+     *                         when the browser does not support the used APIs
+     * @param {string} errMsg - The error message
+     */
+    function UPDATE() {
+      console.log("test update")
+      var loadingProgress = CABLES.patch.getVar("loadingProgress");
+
+      if (loadingProgress) {
+        // will be called every time value changes
+        loadingProgress.addListener(function(newValue) {
+          console.log(newValue);
         });
+      }
+    }
 
-        function getSliderValue() {
-           val = document.querySelector(".slider").value //gets the oninput value
-           document.querySelector('.year').innerHTML = Math.round((1880 + 220 * (val/100)));
-           document.querySelector('.temp').innerHTML = "+" + Math.round(( 2 * (val)))/100 + "Grad";
-           var valForCables = val/100;
-           console.log(valForCables);
-           CABLES.patch.setVariable("sliderInput", valForCables);
-        }
+    function showError(errId, errMsg) {
+      alert('An error occured: ' + errId + ', ' + errMsg);
+    }
 
-                // First we get the viewport height and we multiple it by 1% to get a value for a vh unit
-        let vh = window.innerHeight * 0.01;
-        // Then we set the value in the --vh custom property to the root of the document
-        document.documentElement.style.setProperty('--vh', `${vh}px`);
+    function patchInitialized() {
+      // You can now access the patch object (CABLES.patch), register variable watchers and so on
+    }
 
-        // We listen to the resize event
-        window.addEventListener('resize', () => {
-          // We execute the same script as before
-          let vh = window.innerHeight * 0.01;
-          document.documentElement.style.setProperty('--vh', `${vh}px`);
-        });
+    function patchFinishedLoading() {
+      document.querySelector('.application-wrapper').classList.add('loaded')
+    }
 
-    </script>
+    document.addEventListener('DOMContentLoaded', function(event) {
+      CABLES.patch = new CABLES.Patch({
+        patch: CABLES.exportedPatch,
+        prefixAssetPath: '',
+        glCanvasId: 'glcanvas',
+        canvas: {
+          alpha: true,
+          premultipliedAlpha: true
+        },
+        glCanvasResizeToWindow: true,
+        onError: showError,
+        onPatchLoaded: patchInitialized,
+        onFinishedLoading: patchFinishedLoading,
+      });
+    });
+
+    function getSliderValue() {
+      val = document.querySelector(".slider").value //gets the oninput value
+      document.querySelector('.year').innerHTML = Math.round((1880 + 220 * (val / 100)));
+      document.querySelector('.temp').innerHTML = "+" + Math.round((2 * (val))) / 100 + "Grad";
+      var valForCables = val / 100;
+      console.log(valForCables);
+      CABLES.patch.setVariable("sliderInput", valForCables);
+    }
+
+    // First we get the viewport height and we multiple it by 1% to get a value for a vh unit
+    let vh = window.innerHeight * 0.01;
+    // Then we set the value in the --vh custom property to the root of the document
+    document.documentElement.style.setProperty('--vh', `${vh}px`);
+
+    // We listen to the resize event
+    window.addEventListener('resize', () => {
+      // We execute the same script as before
+      let vh = window.innerHeight * 0.01;
+      document.documentElement.style.setProperty('--vh', `${vh}px`);
+    });
+  </script>
 </body>
+
 </html>
